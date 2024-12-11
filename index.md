@@ -27,13 +27,15 @@ This organization contains a fork of the Rust compiler with added support for th
 
 We offer two choices for **H**ardware **A**bstraction **L**ayers:
 
-| Repository           | Description                                                |
-| -------------------- | ---------------------------------------------------------- |
-| [esp-rs/esp-idf-hal] | _With_ support for the Rust standard library (`std`)       |
-| [esp-rs/esp-hal]     | _Without_ support for the Rust standard library (`no_std`) |
+| Repository           | Description                                                | Documentation       |
+| -------------------- | ---------------------------------------------------------- |--------------------|
+| [esp-rs/esp-idf-hal] | _With_ support for the Rust standard library (`std`)       | [docs/esp-idf-hal] |
+| [esp-rs/esp-hal]     | _Without_ support for the Rust standard library (`no_std`) | [docs/esp-hal]     |
 
 [esp-rs/esp-idf-hal]: https://github.com/esp-rs/esp-idf-hal
 [esp-rs/esp-hal]: https://github.com/esp-rs/esp-hal
+[docs/esp-idf-hal]: https://docs.esp-rs.org/esp-idf-hal/esp_idf_hal/
+[docs/esp-hal]: https://docs.esp-rs.org/esp-hal/
 
 ### Peripheral Access Crates
 
