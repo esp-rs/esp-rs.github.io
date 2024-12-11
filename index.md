@@ -27,7 +27,7 @@ This organization contains a fork of the Rust compiler with added support for th
 
 We offer two choices for **H**ardware **A**bstraction **L**ayers:
 
-| Repository           | Description                                                | Documentaton       |
+| Repository           | Description                                                | Documentation       |
 | -------------------- | ---------------------------------------------------------- |--------------------|
 | [esp-rs/esp-idf-hal] | _With_ support for the Rust standard library (`std`)       | [docs/esp-idf-hal] |
 | [esp-rs/esp-hal]     | _Without_ support for the Rust standard library (`no_std`) | [docs/esp-hal]     |
