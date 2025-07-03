@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP-HAL: Embedded Rust for ESP Microcontrollers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset & Font */
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f8f8;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Container for content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background-color: #3f51b5; /* A shade of blue similar to Rust's */
+            color: #fff;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 1.2em; /* Using a simple icon for now */
+        }
+
+        .nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav ul li {
+            margin-left: 30px;
+        }
+
+        .nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav ul li a:hover {
+            color: #a7c0ff; /* Lighter blue on hover */
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #4a69bd, #6a89cc); /* Gradient background */
+            color: #fff;
+            padding: 80px 0;
+            text-align: center;
+            border-radius: 0 0 15px 15px; /* Rounded bottom corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #ff9800; /* Orange accent */
+            color: #fff;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background-color: #e68900;
+            transform: translateY(-2px);
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 60px 0;
+            background-color: #fff;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .section h2 {
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #3f51b5;
+            font-weight: 600;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        .feature-item {
+            background-color: #f0f4f8;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-item h3 {
+            font-size: 1.5em;
+            color: #3f51b5;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .feature-item p {
+            font-size: 1em;
+            color: #555;
+        }
+
+        /* Code Section */
+        .code-section .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .code-block {
+            background-color: #2b2b2b; /* Dark background for code */
+            color: #f8f8f2; /* Light text for code */
+            padding: 25px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 800px;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; /* Monospace font for code */
+            font-size: 0.95em;
+            line-height: 1.4;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        /* Community Section */
+        .community-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        .community-link-item {
+            background-color: #e3f2fd; /* Light blue */
+            padding: 20px 30px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            color: #3f51b5;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            flex: 1; /* Allow items to grow */
+            min-width: 200px; /* Minimum width for wrapping */
+            max-width: 300px;
+        }
+
+        .community-link-item:hover {
+            background-color: #bbdefb;
+            transform: translateY(-3px);
+        }
+
+        .community-link-item strong {
+            display: block;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: auto; /* Pushes footer to the bottom */
+            border-radius: 15px 15px 0 0; /* Rounded top corners */
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .footer a {
+            color: #a7c0ff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #fff;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nav ul {
+                margin-top: 15px;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav ul li {
+                margin: 10px 0;
+            }
+
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .hero p {
+                font-size: 1.1em;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr; /* Stack features on small screens */
+            }
+
+            .community-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .community-link-item {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <a href="#" class="logo">
+                <span class="logo-icon">🦀</span> ESP-HAL
+            </a>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#get-started">Get Started</a></li>
+                    <li><a href="#community">Community</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Unleash the Power of Embedded Rust on ESP Microcontrollers</h1>
+            <p>A bare-metal Hardware Abstraction Layer for ESP32, ESP32-C3, ESP32-S2, ESP32-S3, and ESP32-H2 microcontrollers, enabling robust and efficient embedded applications in Rust.</p>
+            <a href="https://docs.espressif.com/projects/rust/esp-hal/latest/" target="_blank" class="cta-button">Explore Documentation</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2>What is ESP-HAL?</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 40px auto; font-size: 1.1em;">
+                <code>esp-hal</code> is a foundational crate for developing embedded applications on Espressif's popular ESP series of microcontrollers using the Rust programming language. It provides direct, safe, and idiomatic access to the underlying hardware peripherals, allowing developers to write high-performance, bare-metal code without the overhead of an operating system.
+                It's part of the broader <a href="https://github.com/esp-rs/esp-hal/" style="color: #3f51b5; text-decoration: none; font-weight: 500;"><code>esp-rs</code></a> ecosystem, empowering a new generation of embedded development.
+            </p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section">
+        <div class="container">
+            <h2>Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h3>Bare-Metal Control</h3>
+                    <p>Gain direct, low-level access to ESP hardware peripherals for maximum performance and flexibility.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Extensive Peripheral Support</h3>
+                    <p>Comprehensive support for GPIO, SPI, I2C, UART, ADC, DAC, Timers, and more across various ESP chips.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Idiomatic Rust API</h3>
+                    <p>Leverage Rust's type system and safety features to write robust, error-resistant embedded code.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Asynchronous Capabilities</h3>
+                    <p>Built with async/await support, enabling efficient handling of concurrent operations without complex callbacks.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Cross-Platform Compatibility</h3>
+                    <p>Supports ESP32, ESP32-C3, ESP32-S2, ESP32-S3, and ESP32-H2, ensuring broad applicability for your projects.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Community Driven</h3>
+                    <p>Actively developed and maintained by a vibrant community of embedded Rust enthusiasts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get Started Section -->
+    <section id="get-started" class="section code-section">
+        <div class="container">
+            <h2>Get Started with ESP-HAL</h2>
+            <p style="text-align: center; max-width: 700px; margin-bottom: 30px; font-size: 1.1em;">
+                Dive into embedded Rust development on your ESP microcontroller. Here's a quick taste of how simple it can be to blink an LED!
+            </p>
+            <div class="code-block">
+                <pre><code>
+#![no_std]
+#![no_main]
+
+use esp_hal::{
+    clock::CpuClock,
+    delay::Delay,
+    gpio::{Io, Level, Output, OutputConfig},
+    main,
+    time::{Duration, Instant},
+};
+use esp_backtrace as _;
+
+#[main]
+fn main() -> ! {
+    let config = esp_hal::Config::default().with_cpu_clock(CpuClock::max());
+    let peripherals = esp_hal::init(config);
+
+    let mut led = Output::new(peripherals.GPIO0, Level::High, OutputConfig::default());
+
+    let mut delay = Delay::new();
+    loop {
+        led.toggle();
+        delay.delay_millis(500);
+    }
+}
+                </code></pre>
+            </div>
+            <p style="text-align: center; margin-top: 30px; font-size: 1em;">
+                For more detailed instructions and examples, visit the <a href="https://github.com/esp-rs/esp-hal/" target="_blank" style="color: #ff9800; text-decoration: none; font-weight: 500;">official documentation</a>.
+            </p>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="community" class="section">
+        <div class="container">
+            <h2>Join the Community</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 40px auto; font-size: 1.1em;">
+                Connect with other developers, contribute to the project, and get support.
+            </p>
+            <div class="community-links">
+                <a href="https://github.com/esp-rs/esp-hal" target="_blank" class="community-link-item">
+                    <strong>GitHub Repository</strong>
+                    <span>Source code, issues, and pull requests.</span>
+                </a>
+                <a href="https://docs.espressif.com/projects/rust/" target="_blank" class="community-link-item">
+                    <strong>API Documentation</strong>
+                    <span>Detailed API reference for all modules.</span>
+                </a>
+                <a href="https://docs.espressif.com/projects/rust/book/" target="_blank" class="community-link-item">
+                    <strong>The ESP-RS Book</strong>
+                    <span>Guides and tutorials for embedded Rust on ESP.</span>
+                </a>
+                <a href="https://matrix.to/#/#esp-rs:matrix.org" target="_blank" class="community-link-item">
+                    <strong>Matrix Chat</strong>
+                    <span>Real-time discussions and support.</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 ESP-HAL Contributors. All rights reserved. Part of the <a href="https://github.com/esp-rs/esp-hal/" target="_blank">esp-rs</a> ecosystem.</p>
+        </div>
+    </footer>
+</body>
+</html>
