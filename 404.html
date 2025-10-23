@@ -30,7 +30,9 @@
       if (path.startsWith("/esp-hal/esp-hal")) {
         window.location.href = "https://docs.espressif.com/projects/rust/esp-hal/latest/";
       } else if (path.startsWith("/esp-hal/esp-wifi")) {
-        window.location.href = "https://docs.espressif.com/projects/rust/esp-wifi/latest/";
+        window.location.href = "https://docs.espressif.com/projects/rust/esp-radio/latest/";
+      } else if (path.startsWith("/esp-hal/esp-hal-embassy")) {
+        window.location.href = "https://docs.espressif.com/projects/rust/esp-rtos/latest/";
       } else if (path.startsWith("/book")) {
         const suffix = path.substring("/book/".length);
         window.location.href = "http://docs.espressif.com/projects/rust/book/" + suffix;
